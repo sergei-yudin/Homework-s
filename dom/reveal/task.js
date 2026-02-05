@@ -1,20 +1,19 @@
-const reveal = document.querySelector('.reveal');
+const reveals = document.querySelectorAll('.reveal');
 
-function isVisible(el) {
-    const { top, bottom } = el.getBoundingClientRect();
-    if (bottom < 0) {
-        return false;
-    }
-    if ( top < window.innerHeight) {
-        return true;
-    }
-    return true;
+function isVisible(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
 }
 
-function action() {
-    if (isVisible) {
-        reveal.classList.add('reveal_active');
-    } else {reveal.classList.remove('reveal_active')}
+function checkAllReveals() {
+    reveals.forEach(function (item) {
+        if (isVisible(item)) {
+            item.classList.add('reveal_active');
+        } else {
+            item.classList.remove('reveal_active');
+        }
+    });
 }
 
-action()
+checkAllReveals();
+window.addEventListener('scroll', checkAllReveals);
